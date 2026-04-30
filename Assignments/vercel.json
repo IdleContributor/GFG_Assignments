@@ -5,10 +5,8 @@
     { "source": "/a2", "destination": "/A2/index.html" },
     { "source": "/a3", "destination": "/A3/index.html" },
     { "source": "/a4", "destination": "/A4/index.html" },
-    { "source": "/a5", "destination": "/A5/index.html" },
-    { "source": "/a6", "destination": "/A6/index.html" },
-    { "source": "/a7", "destination": "/A7/index.html" },
-    { "source": "/a8", "destination": "/A8/index.html" }
+    { "source": "/a5", "destination": "/A5/dist/index.html" },
+    { "source": "/a6", "destination": "/A6/dist/index.html" }
   ],
   "headers": [
     {
