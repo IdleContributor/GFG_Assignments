@@ -6,7 +6,9 @@
     { "source": "/a3", "destination": "/A3/index.html" },
     { "source": "/a4", "destination": "/A4/index.html" },
     { "source": "/a5", "destination": "/A5/dist/index.html" },
-    { "source": "/a6", "destination": "/A6/dist/index.html" }
+    { "source": "/a5/:path*", "destination": "/A5/dist/:path*" },
+    { "source": "/a6", "destination": "/A6/dist/index.html" },
+    { "source": "/a6/:path*", "destination": "/A6/dist/:path*" }
   ],
   "headers": [
     {

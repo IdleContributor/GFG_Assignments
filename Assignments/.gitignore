@@ -2,8 +2,10 @@
 node_modules/
 package-lock.json
 
-# Build outputs
+# Build outputs - but keep A5 and A6 dist folders
 dist/
+!A5/dist/
+!A6/dist/
 build/
 .next/
 out/
