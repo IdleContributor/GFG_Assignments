@@ -2,13 +2,17 @@
   "rewrites": [
     { "source": "/", "destination": "/Master/index.html" },
     { "source": "/a1", "destination": "/A1/index.html" },
+    { "source": "/A1/:path*", "destination": "/A1/:path*" },
     { "source": "/a2", "destination": "/A2/index.html" },
+    { "source": "/A2/:path*", "destination": "/A2/:path*" },
     { "source": "/a3", "destination": "/A3/index.html" },
+    { "source": "/A3/:path*", "destination": "/A3/:path*" },
     { "source": "/a4", "destination": "/A4/index.html" },
-    { "source": "/a5", "destination": "/A5/dist/index.html" },
-    { "source": "/a5/:path*", "destination": "/A5/dist/:path*" },
-    { "source": "/a6", "destination": "/A6/dist/index.html" },
-    { "source": "/a6/:path*", "destination": "/A6/dist/:path*" }
+    { "source": "/A4/:path*", "destination": "/A4/:path*" },
+    { "source": "/a5/assets/:path*", "destination": "/A5/dist/assets/:path*" },
+    { "source": "/a5/:path*", "destination": "/A5/dist/index.html" },
+    { "source": "/a6/assets/:path*", "destination": "/A6/dist/assets/:path*" },
+    { "source": "/a6/:path*", "destination": "/A6/dist/index.html" }
   ],
   "headers": [
     {
