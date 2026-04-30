@@ -1,0 +1,116 @@
+{
+  "info": {
+    "name": "A9 - MongoDB CRUD",
+    "description": "Assignment 9 — CRUD operations on Books collection with Mongoose validation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/health"
+      }
+    },
+    {
+      "name": "Get All Books",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/books"
+      }
+    },
+    {
+      "name": "Get All Books (filter by genre)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/books?genre=Fiction"
+      }
+    },
+    {
+      "name": "Get All Books (filter inStock)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/books?inStock=true"
+      }
+    },
+    {
+      "name": "Get Book By ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/books/REPLACE_WITH_ACTUAL_ID",
+        "description": "Replace REPLACE_WITH_ACTUAL_ID with a real MongoDB ObjectId from your database"
+      }
+    },
+    {
+      "name": "Create Book",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/books",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"The Great Gatsby\",\n  \"author\": \"F. Scott Fitzgerald\",\n  \"isbn\": \"978-0-7432-7356-5\",\n  \"publishedYear\": 1925,\n  \"genre\": \"Fiction\",\n  \"pages\": 180,\n  \"price\": 299,\n  \"inStock\": true,\n  \"description\": \"A classic American novel set in the Jazz Age.\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Book (validation test - missing fields)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/books",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Incomplete Book\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Book (validation test - invalid genre)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/books",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Test Book\",\n  \"author\": \"Test Author\",\n  \"isbn\": \"123-456-789\",\n  \"publishedYear\": 2020,\n  \"genre\": \"InvalidGenre\",\n  \"pages\": 200,\n  \"price\": 500\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Book (duplicate ISBN test)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/books",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Duplicate ISBN Book\",\n  \"author\": \"Test Author\",\n  \"isbn\": \"978-0-7432-7356-5\",\n  \"publishedYear\": 2020,\n  \"genre\": \"Fiction\",\n  \"pages\": 200,\n  \"price\": 500\n}",
+          "description": "This should fail if you already created The Great Gatsby with this ISBN"
+        }
+      }
+    },
+    {
+      "name": "Update Book",
+      "request": {
+        "method": "PUT",
+        "url": "{{base_url}}/api/books/REPLACE_WITH_ACTUAL_ID",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 399,\n  \"inStock\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete Book",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/books/REPLACE_WITH_ACTUAL_ID"
+      }
+    }
+  ]
+}

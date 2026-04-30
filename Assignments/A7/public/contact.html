@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Node Server</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+
+    <!-- ========== NAV ========== -->
+    <nav class="nav">
+      <span class="nav__logo">&#128196; NodeServer</span>
+      <ul class="nav__links">
+        <li><a class="nav__link" href="/">Home</a></li>
+        <li><a class="nav__link" href="/about">About</a></li>
+        <li><a class="nav__link nav__link--active" href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main class="page">
+
+      <div class="page-header">
+        <h1 class="page-header__title">Contact</h1>
+        <p class="page-header__subtitle">
+          This form is served by a plain Node.js http server — no Express needed.
+        </p>
+      </div>
+
+      <div class="contact-wrapper">
+
+        <div class="contact-info">
+          <h2>Get in Touch</h2>
+          <div class="contact-details">
+            <div class="contact-item">
+              <span class="contact-item__icon">&#128231;</span>
+              <div>
+                <h3>Email</h3>
+                <p>hello@nodeserver.dev</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__icon">&#128222;</span>
+              <div>
+                <h3>Phone</h3>
+                <p>+91 98765 43210</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-item__icon">&#9881;</span>
+              <div>
+                <h3>Server</h3>
+                <p>Running on <code>localhost:3000</code></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Static form — no backend handler in this assignment -->
+        <form class="contact-form">
+          <h2>Send a Message</h2>
+
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="John Doe" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@example.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Your message..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary">Send Message</button>
+        </form>
+
+      </div>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <span class="footer__logo">SIMARJOT SINGH</span>
+        <p class="footer__copy">Built to fulfill GeeksforGeeks Assignment-7 Requirements</p>
+      </div>
+    </footer>
+
+  </body>
+</html>

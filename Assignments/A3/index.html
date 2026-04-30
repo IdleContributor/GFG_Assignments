@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Advanced CSS Landing Page with dark/light theme" />
+    <title>DevLaunch — Advanced CSS Landing Page</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <!-- ========== HEADER / NAV ========== -->
+    <header class="header">
+      <nav class="nav">
+        <div class="nav__logo">SIMARJOT SINGH</div>
+
+        <ul class="nav__links">
+          <li><a class="nav__link" href="#banner">Home</a></li>
+          <li><a class="nav__link" href="#features">Features</a></li>
+          <li><a class="nav__link" href="#cta">Get Started</a></li>
+        </ul>
+
+        <div class="nav__actions">
+          <!-- Dark / Light mode toggle -->
+          <button class="theme-toggle" aria-label="Toggle theme">
+            <span class="theme-toggle__icon">&#9790;</span>
+          </button>
+          <button class="hamburger" aria-label="Toggle menu">&#9776;</button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+
+      <!-- ========== BANNER SECTION ========== -->
+      <section id="banner" class="banner">
+        <div class="banner__content">
+          <span class="banner__badge">GFG Assignment 3</span>
+          <h1 class="banner__title">
+            Build Faster.<br />
+            Style Smarter.<br />
+            <span class="banner__title--accent">Ship Confidently.</span>
+          </h1>
+          <p class="banner__subtitle">
+            A modern landing page built with CSS Grid, Flexbox, custom
+            properties, BEM naming, and a fully functional dark/light
+            theme toggle.
+          </p>
+          <div class="banner__actions">
+            <a href="#features" class="btn btn--primary">Explore Features</a>
+            <a href="#cta" class="btn btn--outline">Get Started Free</a>
+          </div>
+        </div>
+
+        <div class="banner__visual">
+          <div class="banner__card banner__card--1">
+            <span class="banner__card-icon">&#127760;</span>
+            <p>Grid Layout</p>
+          </div>
+          <div class="banner__card banner__card--2">
+            <span class="banner__card-icon">&#127775;</span>
+            <p>CSS Variables</p>
+          </div>
+          <div class="banner__card banner__card--3">
+            <span class="banner__card-icon">&#9881;</span>
+            <p>BEM Naming</p>
+          </div>
+          <div class="banner__card banner__card--4">
+            <span class="banner__card-icon">&#127763;</span>
+            <p>Dark / Light</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== FEATURES SECTION ========== -->
+      <section id="features" class="features">
+        <div class="section-header">
+          <h2 class="section-header__title">What's Inside</h2>
+          <div class="section-header__underline"></div>
+          <p class="section-header__subtitle">
+            Every technique from the assignment, demonstrated in a real layout.
+          </p>
+        </div>
+
+        <div class="features__grid">
+
+          <article class="feature-card feature-card--purple">
+            <div class="feature-card__icon">&#9638;</div>
+            <h3 class="feature-card__title">CSS Grid Layout</h3>
+            <p class="feature-card__desc">
+              The features section uses a responsive CSS Grid with
+              <code>auto-fit</code> and <code>minmax()</code> so cards
+              reflow naturally at every breakpoint.
+            </p>
+            <span class="feature-card__tag">Grid</span>
+          </article>
+
+          <article class="feature-card feature-card--pink">
+            <div class="feature-card__icon">&#8644;</div>
+            <h3 class="feature-card__title">Flexbox Alignment</h3>
+            <p class="feature-card__desc">
+              The navbar, banner, and CTA strip all use Flexbox for
+              alignment, spacing, and wrapping — no floats, no hacks.
+            </p>
+            <span class="feature-card__tag">Flexbox</span>
+          </article>
+
+          <article class="feature-card feature-card--cyan">
+            <div class="feature-card__icon">&#127752;</div>
+            <h3 class="feature-card__title">CSS Custom Properties</h3>
+            <p class="feature-card__desc">
+              Every color, radius, shadow, and transition lives in
+              <code>:root</code> variables. Swapping themes is a single
+              attribute change on <code>&lt;html&gt;</code>.
+            </p>
+            <span class="feature-card__tag">Variables</span>
+          </article>
+
+          <article class="feature-card feature-card--green">
+            <div class="feature-card__icon">&#9790;</div>
+            <h3 class="feature-card__title">Dark / Light Toggle</h3>
+            <p class="feature-card__desc">
+              Click the moon icon in the navbar. JavaScript flips
+              <code>data-theme</code> on <code>&lt;html&gt;</code> and
+              CSS variables do the rest — zero inline styles.
+            </p>
+            <span class="feature-card__tag">Theming</span>
+          </article>
+
+          <article class="feature-card feature-card--orange">
+            <div class="feature-card__icon">&#128196;</div>
+            <h3 class="feature-card__title">BEM Naming</h3>
+            <p class="feature-card__desc">
+              Every class follows Block__Element--Modifier convention:
+              <code>.feature-card</code>, <code>.feature-card__title</code>,
+              <code>.feature-card--purple</code>.
+            </p>
+            <span class="feature-card__tag">BEM</span>
+          </article>
+
+          <article class="feature-card feature-card--blue">
+            <div class="feature-card__icon">&#128241;</div>
+            <h3 class="feature-card__title">Fully Responsive</h3>
+            <p class="feature-card__desc">
+              Two media query breakpoints (900px tablet, 600px mobile)
+              with a hamburger menu and stacked layouts for small screens.
+            </p>
+            <span class="feature-card__tag">Responsive</span>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ========== STATS STRIP ========== -->
+      <section class="stats">
+        <div class="stats__grid">
+          <div class="stats__item">
+            <span class="stats__number">6</span>
+            <span class="stats__label">CSS Concepts</span>
+          </div>
+          <div class="stats__item">
+            <span class="stats__number">2</span>
+            <span class="stats__label">Theme Modes</span>
+          </div>
+          <div class="stats__item">
+            <span class="stats__number">100%</span>
+            <span class="stats__label">Responsive</span>
+          </div>
+          <div class="stats__item">
+            <span class="stats__number">0</span>
+            <span class="stats__label">Frameworks Used</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== CTA SECTION ========== -->
+      <section id="cta" class="cta">
+        <div class="cta__inner">
+          <h2 class="cta__title">Ready to Level Up Your CSS?</h2>
+          <p class="cta__subtitle">
+            Fork this project, swap the colors, add your own sections, and
+            make it yours. That's the whole point.
+          </p>
+          <form class="cta__form" novalidate>
+            <div class="cta__form-group">
+              <input
+                class="cta__input"
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                required
+              />
+              <button class="btn btn--primary cta__submit" type="submit">
+                Get Access
+              </button>
+            </div>
+            <p class="cta__note">Unsubscribe anytime.</p>
+          </form>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <span class="footer__logo">SIMARJOT SINGH</span>
+        <p class="footer__copy">Built to fulfill GeeksforGeeks Assignment-3 Requirements</p>
+        <div class="footer__links">
+          <a class="footer__link" href="#banner">Home</a>
+          <a class="footer__link" href="#features">Features</a>
+          <a class="footer__link" href="#cta">Get Started</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

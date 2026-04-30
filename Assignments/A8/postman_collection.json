@@ -1,0 +1,104 @@
+{
+  "info": {
+    "name": "A8 - Express REST API",
+    "description": "Assignment 8 — CRUD endpoints for Products resource",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/health"
+      }
+    },
+    {
+      "name": "Get All Products",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/products"
+      }
+    },
+    {
+      "name": "Get All Products (filter by category)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/products?category=Electronics"
+      }
+    },
+    {
+      "name": "Get All Products (filter inStock)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/products?inStock=true"
+      }
+    },
+    {
+      "name": "Get Product By ID",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/products/1"
+      }
+    },
+    {
+      "name": "Get Product By ID (404 test)",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/products/999"
+      }
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/products",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Wireless Speaker\",\n  \"price\": 1999,\n  \"category\": \"Electronics\",\n  \"inStock\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Product (400 test - missing fields)",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/products",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Incomplete Product\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "url": "{{base_url}}/api/products/1",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": 2999,\n  \"inStock\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/api/products/4"
+      }
+    },
+    {
+      "name": "404 Route Test",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/invalid-route"
+      }
+    }
+  ]
+}

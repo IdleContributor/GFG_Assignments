@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git Basics - Assignment 2</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <h1 class="header__title">Git Basics</h1>
+      <p class="header__subtitle">Assignment 2 - Version Control Fundamentals</p>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      
+      <!-- Introduction Section -->
+      <section class="intro">
+        <h2>Introduction to Git</h2>
+        <p>Git is a distributed version control system that helps manage project history and collaboration. This assignment demonstrates the fundamental Git commands and workflows used in real-world projects.</p>
+      </section>
+
+      <!-- Objectives Section -->
+      <section class="objectives">
+        <h2>Learning Objectives</h2>
+        <ul class="objectives__list">
+          <li>Learn Git basics and essential commands</li>
+          <li>Use branches effectively for feature development</li>
+          <li>Understand merging and conflict resolution</li>
+          <li>Host code on GitHub and manage repositories</li>
+          <li>Review commit history and track changes</li>
+        </ul>
+      </section>
+
+      <!-- Screenshots Section -->
+      <section class="screenshots">
+        <h2>Git Workflow Screenshots</h2>
+        
+        <div class="screenshot-grid">
+          
+          <!-- Screenshot 1 -->
+          <div class="screenshot-card">
+            <div class="screenshot-img">
+              <img src="git-init.png" alt="Git Init" onerror="this.src='https://via.placeholder.com/800x500/dc2626/ffffff?text=Git+Init+Screenshot'">
+            </div>
+            <div class="screenshot-info">
+              <h3>1. Initialize Repository</h3>
+              <p>Creating a new Git repository with <code>git init</code></p>
+            </div>
+          </div>
+
+          <!-- Screenshot 2 -->
+          <div class="screenshot-card">
+            <div class="screenshot-img">
+              <img src="git-init.png" alt="Git Add and Commit" onerror="this.src='https://via.placeholder.com/800x500/dc2626/ffffff?text=Git+Add+%26+Commit'">
+            </div>
+            <div class="screenshot-info">
+              <h3>2. Stage and Commit Files</h3>
+              <p>Using <code>git add</code> and <code>git commit</code> to save changes</p>
+            </div>
+          </div>
+
+          <!-- Screenshot 3 -->
+          <div class="screenshot-card">
+            <div class="screenshot-img">
+              <img src="git-branch.png" alt="Git Branch" onerror="this.src='https://via.placeholder.com/800x500/dc2626/ffffff?text=Git+Branch'">
+            </div>
+            <div class="screenshot-info">
+              <h3>3. Create and Switch Branches</h3>
+              <p>Creating a new branch with <code>git branch</code> and <code>git checkout</code></p>
+            </div>
+          </div>
+
+          <!-- Screenshot 4 -->
+          <div class="screenshot-card">
+            <div class="screenshot-img">
+              <img src="git-merge.png" alt="Git Merge" onerror="this.src='https://via.placeholder.com/800x500/dc2626/ffffff?text=Git+Merge'">
+            </div>
+            <div class="screenshot-info">
+              <h3>4. Merge Branches</h3>
+              <p>Merging feature branch into main with <code>git merge</code></p>
+            </div>
+          </div>
+
+          <!-- Screenshot 5 -->
+          <div class="screenshot-card">
+            <div class="screenshot-img">
+              <img src="git-push.png" alt="Git Push" onerror="this.src='https://via.placeholder.com/800x500/dc2626/ffffff?text=Git+Push'">
+            </div>
+            <div class="screenshot-info">
+              <h3>5. Push to GitHub</h3>
+              <p>Pushing code to remote repository with <code>git push</code></p>
+            </div>
+          </div>
+
+          <!-- Screenshot 6 -->
+          <div class="screenshot-card">
+            <div class="screenshot-img">
+              <img src="git-log.png" alt="Git Log" onerror="this.src='https://via.placeholder.com/800x500/dc2626/ffffff?text=Git+Log'">
+            </div>
+            <div class="screenshot-info">
+              <h3>6. Review Commit History</h3>
+              <p>Viewing commit history with <code>git log</code></p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Commands Reference -->
+      <section class="commands">
+        <h2>Essential Git Commands</h2>
+        <div class="commands-grid">
+          <div class="command-card">
+            <code>git init</code>
+            <p>Initialize a new Git repository</p>
+          </div>
+          <div class="command-card">
+            <code>git add .</code>
+            <p>Stage all changes for commit</p>
+          </div>
+          <div class="command-card">
+            <code>git commit -m "message"</code>
+            <p>Commit staged changes with a message</p>
+          </div>
+          <div class="command-card">
+            <code>git branch &lt;name&gt;</code>
+            <p>Create a new branch</p>
+          </div>
+          <div class="command-card">
+            <code>git checkout &lt;branch&gt;</code>
+            <p>Switch to a different branch</p>
+          </div>
+          <div class="command-card">
+            <code>git merge &lt;branch&gt;</code>
+            <p>Merge branch into current branch</p>
+          </div>
+          <div class="command-card">
+            <code>git push</code>
+            <p>Push commits to remote repository</p>
+          </div>
+          <div class="command-card">
+            <code>git log</code>
+            <p>View commit history</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__logo">SIMARJOT SINGH</span>
+      <p class="footer__copy">Built to fulfill GeeksforGeeks Assignment-2 Requirements</p>
+      <div class="footer__links">
+        <a class="footer__link" href="/">Home</a>
+        <a class="footer__link" href="https://github.com/IdleContributor" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

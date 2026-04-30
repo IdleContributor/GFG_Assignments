@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home | Node Server</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+
+    <!-- ========== NAV ========== -->
+    <nav class="nav">
+      <span class="nav__logo">&#128196; NodeServer</span>
+      <ul class="nav__links">
+        <li><a class="nav__link nav__link--active" href="/">Home</a></li>
+        <li><a class="nav__link" href="/about">About</a></li>
+        <li><a class="nav__link" href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <main class="page">
+
+      <!-- ========== HERO ========== -->
+      <div class="hero">
+        <span class="hero__badge">&#9889; Assignment 7 — Node.js Server</span>
+        <h1 class="hero__title">
+          A Simple Server<br />Built with Node.js
+        </h1>
+        <p class="hero__subtitle">
+          No frameworks. Just the built-in <code>http</code>, <code>fs</code>,
+          and <code>path</code> modules — serving HTML files and logging every request.
+        </p>
+        <div class="hero__actions">
+          <a href="/about" class="btn btn--primary">How It Works</a>
+          <a href="/contact" class="btn btn--outline">Contact</a>
+        </div>
+      </div>
+
+      <!-- ========== FEATURE CARDS ========== -->
+      <div class="cards">
+        <div class="card">
+          <span class="card__icon">&#127760;</span>
+          <h3 class="card__title">http Module</h3>
+          <p class="card__text">
+            The built-in <code>http.createServer()</code> handles every
+            incoming request and routes it to the right HTML file.
+          </p>
+        </div>
+        <div class="card">
+          <span class="card__icon">&#128196;</span>
+          <h3 class="card__title">fs Module</h3>
+          <p class="card__text">
+            <code>fs.readFile()</code> reads HTML and CSS files from the
+            <code>public/</code> folder and streams them to the browser.
+          </p>
+        </div>
+        <div class="card">
+          <span class="card__icon">&#128203;</span>
+          <h3 class="card__title">Request Logging</h3>
+          <p class="card__text">
+            Every request is logged to the console and appended to
+            <code>requests.log</code> with a full ISO timestamp.
+          </p>
+        </div>
+        <div class="card">
+          <span class="card__icon">&#128260;</span>
+          <h3 class="card__title">nodemon</h3>
+          <p class="card__text">
+            Run <code>npm start</code> to launch the server with nodemon,
+            which auto-restarts on every file save.
+          </p>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <div class="footer__inner">
+        <span class="footer__logo">SIMARJOT SINGH</span>
+        <p class="footer__copy">Built to fulfill GeeksforGeeks Assignment-7 Requirements</p>
+      </div>
+    </footer>
+
+  </body>
+</html>

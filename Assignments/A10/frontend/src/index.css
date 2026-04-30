@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap');
+@import "tailwindcss";
+
+/* ── Brand tokens ── */
+:root {
+  --primary:       #2BAE66;
+  --primary-dark:  #229955;
+  --primary-light: #e8f8ef;
+  --primary-ring:  #2BAE6666;
+  --bg:            #FCF6F5;
+  --text:          #1a1a1a;
+  --card-bg:       #ffffff;
+  --border:        #e5e7eb;
+  --input-bg:      #ffffff;
+  --nav-bg:        #ffffff;
+}
+
+/* ── Dark mode tokens ── */
+[data-theme="dark"] {
+  --primary:       #34D399;
+  --primary-dark:  #10B981;
+  --primary-light: #064e3b;
+  --primary-ring:  #34D39966;
+  --bg:            #0f1419;
+  --text:          #e5e7eb;
+  --card-bg:       #1a2332;
+  --border:        #2d3748;
+  --input-bg:      #1a2332;
+  --nav-bg:        #1a2332;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Merriweather', serif;
+}
+
+@layer base {
+  button {
+    @apply cursor-pointer transition-all active:scale-95;
+  }
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  background-color: var(--primary);
+  color: #fff;
+  @apply px-6 py-2.5 rounded-lg font-medium transition-all;
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.btn-outline {
+  border: 1.5px solid var(--primary);
+  color: var(--primary);
+  @apply px-6 py-2.5 rounded-lg font-medium transition-all;
+}
+.btn-outline:hover {
+  background-color: var(--primary-light);
+}
+
+/* ── Card ── */
+.card {
+  background-color: var(--card-bg);
+  border-color: var(--border);
+  @apply rounded-2xl shadow-sm border overflow-hidden;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* ── Input with icon ──
+   The icon sits absolutely inside the wrapper.
+   pl-10 = 40px gives enough room for left-3 (12px) + 16px icon + 4px gap.
+   We also make the icon pointer-events-none so clicks pass through to the input.
+*/
+.input-wrapper {
+  @apply relative;
+}
+.input-wrapper .input-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none;
+  color: #9ca3af; /* gray-400 */
+}
+.input-field {
+  background-color: var(--input-bg);
+  border-color: var(--border);
+  color: var(--text);
+  @apply w-full border rounded-lg px-4 py-2.5 text-sm
+         focus:outline-none focus:border-transparent transition-all;
+  /* no ring here — we do it manually so we can use the brand color */
+}
+.input-field:focus {
+  box-shadow: 0 0 0 2px var(--primary-ring);
+  border-color: var(--primary);
+}
+/* When there's a leading icon, add left padding */
+.input-field.has-icon {
+  padding-left: 2.5rem; /* 40px */
+}
+
+/* ── Spinner ── */
+.spinner {
+  @apply animate-spin rounded-full h-4 w-4 border-t-2 border-white;
+}
+
+/* ── Dark mode specific overrides ── */
+[data-theme="dark"] .text-gray-900 {
+  color: #e5e7eb !important;
+}
+
+[data-theme="dark"] .text-gray-800 {
+  color: #d1d5db !important;
+}
+
+[data-theme="dark"] .text-gray-700 {
+  color: #9ca3af !important;
+}
+
+[data-theme="dark"] .text-gray-500 {
+  color: #6b7280 !important;
+}
+
+[data-theme="dark"] .text-gray-400 {
+  color: #4b5563 !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .bg-gray-50 {
+  background-color: #2d3748 !important;
+}
+
+[data-theme="dark"] .bg-gray-100 {
+  background-color: #374151 !important;
+}
+
+[data-theme="dark"] .border-gray-100,
+[data-theme="dark"] .border-gray-200 {
+  border-color: var(--border) !important;
+}
+
+[data-theme="dark"] .hover\:bg-gray-50:hover {
+  background-color: #2d3748 !important;
+}
+
+[data-theme="dark"] .hover\:bg-gray-100:hover {
+  background-color: #374151 !important;
+}

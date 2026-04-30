@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Books API — Assignment 9</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- ========== NAV ========== -->
+  <nav class="nav">
+    <div class="nav__logo">&#128218; Books<span>API</span></div>
+    <ul class="nav__links">
+      <li><a class="nav__link" href="#books">Books</a></li>
+      <li><a class="nav__link" href="#explorer">Explorer</a></li>
+      <li><a class="nav__link" href="#health">Health</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <div class="hero">
+    <span class="hero__badge">Assignment 9 — Express + MongoDB REST API</span>
+    <h1 class="hero__title">Books <span>REST API</span></h1>
+    <p class="hero__subtitle">
+      Full CRUD API built with Express 5 and MongoDB via Mongoose. Try every endpoint live — no Postman needed.
+    </p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-value">5</span>
+        <span class="hero__meta-label">Endpoints</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-value">MongoDB</span>
+        <span class="hero__meta-label">Database</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-value" id="heroCount">—</span>
+        <span class="hero__meta-label">Books</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="page">
+
+    <!-- ========== HEALTH ========== -->
+    <section id="health">
+      <h2 class="section-title">&#128994; Server Health</h2>
+      <div class="health-card">
+        <div class="health-card__dot" id="healthDot"></div>
+        <div class="health-card__text">
+          <div class="health-card__label" id="healthLabel">Checking…</div>
+          <div class="health-card__msg" id="healthMsg">GET /api/health</div>
+        </div>
+        <button class="btn btn--outline btn--sm" onclick="checkHealth()">Refresh</button>
+      </div>
+    </section>
+
+    <!-- ========== BOOKS TABLE ========== -->
+    <section id="books" class="table-section">
+      <h2 class="section-title">&#128218; All Books</h2>
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <span class="table-toolbar__title" id="tableCount">Loading…</span>
+          <div class="table-toolbar__filters">
+            <select id="filterGenre" onchange="loadBooks()">
+              <option value="">All genres</option>
+              <option>Fiction</option>
+              <option>Non-Fiction</option>
+              <option>Science</option>
+              <option>History</option>
+              <option>Biography</option>
+              <option>Fantasy</option>
+              <option>Mystery</option>
+              <option>Romance</option>
+              <option>Other</option>
+            </select>
+            <select id="filterStock" onchange="loadBooks()">
+              <option value="">All stock</option>
+              <option value="true">In Stock</option>
+              <option value="false">Out of Stock</option>
+            </select>
+            <button class="btn btn--outline btn--sm" onclick="loadBooks()">&#8635; Refresh</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>Year</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="booksTableBody">
+            <tr><td colspan="7" class="table-empty">Loading books…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== API EXPLORER ========== -->
+    <section id="explorer">
+      <h2 class="section-title">&#128640; API Explorer</h2>
+      <div class="endpoints">
+
+        <!-- GET ALL -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--get">GET</span>
+            <span class="endpoint-card__path">/api/books</span>
+            <span class="endpoint-card__desc">Get all books (supports ?genre= and ?inStock= filters)</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>genre (optional)</label>
+                  <select id="ga-genre">
+                    <option value="">Any</option>
+                    <option>Fiction</option><option>Non-Fiction</option><option>Science</option>
+                    <option>History</option><option>Biography</option><option>Fantasy</option>
+                    <option>Mystery</option><option>Romance</option><option>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>inStock (optional)</label>
+                  <select id="ga-instock">
+                    <option value="">Any</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doGetAll()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-getall">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-getall-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-getall-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GET BY ID -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--get">GET</span>
+            <span class="endpoint-card__path">/api/books/:id</span>
+            <span class="endpoint-card__desc">Get a single book by MongoDB ID</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="form-group">
+                <label>Book ID (MongoDB _id)</label>
+                <input type="text" id="gi-id" placeholder="e.g. 64f1a2b3c4d5e6f7a8b9c0d1" />
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doGetById()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-getbyid">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-getbyid-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-getbyid-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- POST -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--post">POST</span>
+            <span class="endpoint-card__path">/api/books</span>
+            <span class="endpoint-card__desc">Create a new book</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Title *</label>
+                  <input type="text" id="post-title" placeholder="e.g. The Great Gatsby" />
+                </div>
+                <div class="form-group">
+                  <label>Author *</label>
+                  <input type="text" id="post-author" placeholder="e.g. F. Scott Fitzgerald" />
+                </div>
+              </div>
+              <div class="api-form__row--3 api-form__row">
+                <div class="form-group">
+                  <label>ISBN *</label>
+                  <input type="text" id="post-isbn" placeholder="e.g. 978-0-7432-7356-5" />
+                </div>
+                <div class="form-group">
+                  <label>Published Year *</label>
+                  <input type="number" id="post-year" placeholder="e.g. 1925" min="1000" max="2025" />
+                </div>
+                <div class="form-group">
+                  <label>Pages *</label>
+                  <input type="number" id="post-pages" placeholder="e.g. 180" min="1" />
+                </div>
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Genre *</label>
+                  <select id="post-genre">
+                    <option value="">Select genre…</option>
+                    <option>Fiction</option><option>Non-Fiction</option><option>Science</option>
+                    <option>History</option><option>Biography</option><option>Fantasy</option>
+                    <option>Mystery</option><option>Romance</option><option>Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Price (₹) *</label>
+                  <input type="number" id="post-price" placeholder="e.g. 499" min="0" />
+                </div>
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>In Stock</label>
+                  <select id="post-instock">
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Description (optional)</label>
+                  <input type="text" id="post-desc" placeholder="Short description…" />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doPost()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-post">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-post-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-post-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PUT -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--put">PUT</span>
+            <span class="endpoint-card__path">/api/books/:id</span>
+            <span class="endpoint-card__desc">Update an existing book (any fields)</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="form-group">
+                <label>Book ID * (MongoDB _id)</label>
+                <input type="text" id="put-id" placeholder="Paste _id from the table above" />
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Title (optional)</label>
+                  <input type="text" id="put-title" placeholder="Leave blank to keep current" />
+                </div>
+                <div class="form-group">
+                  <label>Author (optional)</label>
+                  <input type="text" id="put-author" placeholder="Leave blank to keep current" />
+                </div>
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Price (optional)</label>
+                  <input type="number" id="put-price" placeholder="Leave blank to keep current" min="0" />
+                </div>
+                <div class="form-group">
+                  <label>Genre (optional)</label>
+                  <select id="put-genre">
+                    <option value="">— no change —</option>
+                    <option>Fiction</option><option>Non-Fiction</option><option>Science</option>
+                    <option>History</option><option>Biography</option><option>Fantasy</option>
+                    <option>Mystery</option><option>Romance</option><option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>In Stock (optional)</label>
+                  <select id="put-instock">
+                    <option value="">— no change —</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Description (optional)</label>
+                  <input type="text" id="put-desc" placeholder="Leave blank to keep current" />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doPut()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-put">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-put-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-put-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DELETE -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--delete">DELETE</span>
+            <span class="endpoint-card__path">/api/books/:id</span>
+            <span class="endpoint-card__desc">Delete a book by MongoDB ID</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="form-group">
+                <label>Book ID * (MongoDB _id)</label>
+                <input type="text" id="del-id" placeholder="Paste _id from the table above" />
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--danger" onclick="doDelete()">&#128465; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-delete">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-delete-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-delete-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__logo">SIMARJOT SINGH</span>
+      <p class="footer__copy">Built to fulfill GeeksforGeeks Assignment-9 Requirements</p>
+    </div>
+  </footer>
+
+  <!-- ========== TOAST ========== -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const BASE = '/api';
+
+    // ── Helpers ──────────────────────────────────────────────
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => { t.className = 'toast'; }, 3000);
+    }
+
+    function showResponse(panelId, statusId, bodyId, status, data) {
+      const panel = document.getElementById(panelId);
+      panel.classList.add('visible');
+      const ok = status >= 200 && status < 300;
+      const statusEl = document.getElementById(statusId);
+      statusEl.textContent = status;
+      statusEl.className = `response-panel__status ${ok ? 'status--ok' : 'status--error'}`;
+      document.getElementById(bodyId).textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function apiFetch(method, path, body) {
+      const opts = { method, headers: { 'Content-Type': 'application/json' } };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(BASE + path, opts);
+      const data = await res.json();
+      return { status: res.status, data };
+    }
+
+    function toggleCard(header) {
+      const body = header.nextElementSibling;
+      const icon = header.querySelector('.endpoint-card__toggle');
+      body.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
+
+    // ── Health ───────────────────────────────────────────────
+    async function checkHealth() {
+      const dot   = document.getElementById('healthDot');
+      const label = document.getElementById('healthLabel');
+      const msg   = document.getElementById('healthMsg');
+      try {
+        const { status, data } = await apiFetch('GET', '/health');
+        if (status === 200) {
+          dot.className = 'health-card__dot online';
+          label.textContent = 'Server is online';
+          msg.textContent = data.message || 'GET /api/health → 200 OK';
+        } else throw new Error();
+      } catch {
+        dot.className = 'health-card__dot offline';
+        label.textContent = 'Server is offline';
+        msg.textContent = 'Could not reach GET /api/health';
+      }
+    }
+
+    // ── Load books table ─────────────────────────────────────
+    async function loadBooks() {
+      const genre   = document.getElementById('filterGenre').value;
+      const inStock = document.getElementById('filterStock').value;
+      let qs = '';
+      if (genre)   qs += `?genre=${encodeURIComponent(genre)}`;
+      if (inStock) qs += `${qs ? '&' : '?'}inStock=${inStock}`;
+
+      const tbody = document.getElementById('booksTableBody');
+      tbody.innerHTML = '<tr><td colspan="7" class="table-empty">Loading…</td></tr>';
+
+      try {
+        const { data } = await apiFetch('GET', `/books${qs}`);
+        const books = data.data || [];
+        document.getElementById('tableCount').textContent =
+          `${data.count ?? books.length} book${books.length !== 1 ? 's' : ''}`;
+        document.getElementById('heroCount').textContent = data.count ?? books.length;
+
+        if (books.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" class="table-empty">No books found. Add one using the API Explorer below.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = books.map(b => `
+          <tr>
+            <td><strong>${b.title}</strong></td>
+            <td>${b.author}</td>
+            <td><span class="badge badge--genre">${b.genre}</span></td>
+            <td>${b.publishedYear}</td>
+            <td>₹${b.price.toLocaleString('en-IN')}</td>
+            <td><span class="badge ${b.inStock ? 'badge--in' : 'badge--out'}">${b.inStock ? '✔ In Stock' : '✘ Out'}</span></td>
+            <td style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+              <button class="btn btn--outline btn--sm" onclick="prefillPut('${b._id}')">Edit</button>
+              <button class="btn btn--danger btn--sm" onclick="quickDelete('${b._id}', '${b.title.replace(/'/g,"\\'")}')">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch {
+        tbody.innerHTML = '<tr><td colspan="7" class="table-empty">Failed to load books. Is the server running?</td></tr>';
+      }
+    }
+
+    async function quickDelete(id, title) {
+      if (!confirm(`Delete "${title}"?`)) return;
+      try {
+        const { status, data } = await apiFetch('DELETE', `/books/${id}`);
+        showToast(status === 200 ? `"${title}" deleted` : data.message, status === 200 ? 'success' : 'error');
+        loadBooks();
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    function prefillPut(id) {
+      document.getElementById('put-id').value = id;
+      document.querySelectorAll('.endpoint-card').forEach(card => {
+        const badge = card.querySelector('.method-badge');
+        if (badge && badge.textContent === 'PUT') {
+          card.querySelector('.endpoint-card__body').classList.add('open');
+          card.querySelector('.endpoint-card__toggle').classList.add('open');
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+      showToast(`Prefilled PUT form with ID`);
+    }
+
+    // ── Explorer actions ─────────────────────────────────────
+    async function doGetAll() {
+      const genre   = document.getElementById('ga-genre').value;
+      const inStock = document.getElementById('ga-instock').value;
+      let qs = '';
+      if (genre)   qs += `?genre=${encodeURIComponent(genre)}`;
+      if (inStock) qs += `${qs ? '&' : '?'}inStock=${inStock}`;
+      try {
+        const { status, data } = await apiFetch('GET', `/books${qs}`);
+        showResponse('res-getall', 'res-getall-status', 'res-getall-body', status, data);
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doGetById() {
+      const id = document.getElementById('gi-id').value.trim();
+      if (!id) { showToast('Enter a book ID', 'error'); return; }
+      try {
+        const { status, data } = await apiFetch('GET', `/books/${id}`);
+        showResponse('res-getbyid', 'res-getbyid-status', 'res-getbyid-body', status, data);
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doPost() {
+      const title  = document.getElementById('post-title').value.trim();
+      const author = document.getElementById('post-author').value.trim();
+      const isbn   = document.getElementById('post-isbn').value.trim();
+      const year   = document.getElementById('post-year').value;
+      const pages  = document.getElementById('post-pages').value;
+      const genre  = document.getElementById('post-genre').value;
+      const price  = document.getElementById('post-price').value;
+      const inStock = document.getElementById('post-instock').value === 'true';
+      const description = document.getElementById('post-desc').value.trim();
+
+      if (!title || !author || !isbn || !year || !pages || !genre || !price) {
+        showToast('Fill in all required fields', 'error'); return;
+      }
+
+      const body = { title, author, isbn, publishedYear: Number(year), pages: Number(pages), genre, price: Number(price), inStock };
+      if (description) body.description = description;
+
+      try {
+        const { status, data } = await apiFetch('POST', '/books', body);
+        showResponse('res-post', 'res-post-status', 'res-post-body', status, data);
+        if (status === 201) { showToast('Book created!', 'success'); loadBooks(); }
+        else showToast(data.message, 'error');
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doPut() {
+      const id = document.getElementById('put-id').value.trim();
+      if (!id) { showToast('Enter a book ID', 'error'); return; }
+
+      const body = {};
+      const title  = document.getElementById('put-title').value.trim();
+      const author = document.getElementById('put-author').value.trim();
+      const price  = document.getElementById('put-price').value;
+      const genre  = document.getElementById('put-genre').value;
+      const inStock = document.getElementById('put-instock').value;
+      const desc   = document.getElementById('put-desc').value.trim();
+
+      if (title)   body.title  = title;
+      if (author)  body.author = author;
+      if (price)   body.price  = Number(price);
+      if (genre)   body.genre  = genre;
+      if (inStock) body.inStock = inStock === 'true';
+      if (desc)    body.description = desc;
+
+      if (Object.keys(body).length === 0) { showToast('Fill in at least one field to update', 'error'); return; }
+
+      try {
+        const { status, data } = await apiFetch('PUT', `/books/${id}`, body);
+        showResponse('res-put', 'res-put-status', 'res-put-body', status, data);
+        if (status === 200) { showToast('Book updated!', 'success'); loadBooks(); }
+        else showToast(data.message, 'error');
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doDelete() {
+      const id = document.getElementById('del-id').value.trim();
+      if (!id) { showToast('Enter a book ID', 'error'); return; }
+      if (!confirm(`Delete book with ID: ${id}?`)) return;
+      try {
+        const { status, data } = await apiFetch('DELETE', `/books/${id}`);
+        showResponse('res-delete', 'res-delete-status', 'res-delete-body', status, data);
+        if (status === 200) { showToast('Book deleted!', 'success'); loadBooks(); }
+        else showToast(data.message, 'error');
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    // ── Init ─────────────────────────────────────────────────
+    checkHealth();
+    loadBooks();
+  </script>
+
+</body>
+</html>

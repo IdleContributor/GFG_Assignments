@@ -1,0 +1,451 @@
+/* =============================================
+   CSS RESET & CUSTOM PROPERTIES
+   ============================================= */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* -----------------------------------------------
+   LIGHT THEME (default)
+   Primary: #2BAE66  |  Secondary: #2BAE66
+----------------------------------------------- */
+:root {
+  --primary:      #2BAE66;
+  --primary-dark: #1f8f50;
+  --secondary:    #2BAE66;
+  --accent:       #1f8f50;
+  --danger:       #ef4444;
+  --danger-dark:  #dc2626;
+  --success:      #2BAE66;
+
+  --bg:           #f0faf4;
+  --bg-card:      #ffffff;
+  --bg-section:   #e2f5ea;
+
+  --text:         #0d2b1a;
+  --text-muted:   #3d7a55;
+  --border:       #b2dfc4;
+  --white:        #ffffff;
+
+  --font:         'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --radius:       12px;
+  --radius-sm:    8px;
+  --shadow:       0 8px 32px rgba(43, 174, 102, 0.14);
+  --transition:   0.3s ease;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+ul {
+  list-style: none;
+}
+
+/* =============================================
+   REUSABLE BUTTONS
+   ============================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform var(--transition),
+              box-shadow var(--transition),
+              background var(--transition);
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+.btn--primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(43, 174, 102, 0.4);
+}
+
+.btn--danger {
+  background: var(--danger);
+  color: var(--white);
+  border-color: var(--danger);
+}
+
+.btn--danger:hover {
+  background: var(--danger-dark);
+  border-color: var(--danger-dark);
+  transform: translateY(-2px);
+}
+
+.btn--sm {
+  padding: 0.4rem 1rem;
+  font-size: 0.82rem;
+}
+
+/* =============================================
+   HEADER
+   ============================================= */
+.header {
+  text-align: center;
+  padding: 3rem 2rem 1.5rem;
+}
+
+.header__title {
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.header__subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* =============================================
+   MAIN WRAPPER
+   ============================================= */
+.main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* =============================================
+   INPUT SECTION
+   ============================================= */
+.input-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.input-section__form {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.input-section__field {
+  flex: 1;
+  padding: 0.75rem 1.1rem;
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.input-section__field:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(43, 174, 102, 0.2);
+}
+
+.input-section__field::placeholder {
+  color: var(--text-muted);
+}
+
+/* =============================================
+   FILTER BUTTONS
+   ============================================= */
+.filters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filters__btn {
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition),
+              color var(--transition),
+              border-color var(--transition);
+}
+
+.filters__btn:hover {
+  color: var(--text);
+  border-color: var(--primary);
+}
+
+.filters__btn--active {
+  background: var(--primary);
+  color: var(--white);
+  border-color: var(--primary);
+}
+
+/* =============================================
+   TASK LIST SECTION
+   ============================================= */
+.list-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 1.25rem;
+  min-height: 80px;
+}
+
+/* =============================================
+   INDIVIDUAL TASK ITEM
+   ============================================= */
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+  animation: slideIn 0.25s ease forwards;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item:hover {
+  background: var(--bg-section);
+}
+
+/* Completed state: muted text + strikethrough */
+.todo-item--completed .todo-item__text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------ Checkbox ------ */
+.todo-item__checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition), border-color var(--transition);
+  font-size: 0.7rem;
+  color: var(--white);
+}
+
+.todo-item__checkbox:hover {
+  border-color: var(--success);
+}
+
+.todo-item--completed .todo-item__checkbox {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+/* ------ Task text (editable on dblclick) ------ */
+.todo-item__text {
+  flex: 1;
+  font-size: 0.97rem;
+  color: var(--text);
+  word-break: break-word;
+  transition: color var(--transition);
+}
+
+/* Edit input shown when editing */
+.todo-item__edit {
+  flex: 1;
+  padding: 0.3rem 0.6rem;
+  background: var(--bg-section);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.97rem;
+  box-shadow: 0 0 0 3px rgba(43, 174, 102, 0.2);
+}
+
+.todo-item__edit:focus {
+  outline: none;
+}
+
+/* ------ Action buttons (edit / delete) ------ */
+.todo-item__actions {
+  display: flex;
+  gap: 0.4rem;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.todo-item:hover .todo-item__actions {
+  opacity: 1;
+}
+
+.todo-item__btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-section);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition),
+              color var(--transition),
+              border-color var(--transition),
+              transform var(--transition);
+}
+
+.todo-item__btn:hover {
+  transform: scale(1.15);
+}
+
+.todo-item__btn--edit:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+}
+
+.todo-item__btn--delete:hover {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: var(--white);
+}
+
+/* =============================================
+   EMPTY STATE
+   ============================================= */
+.empty-state {
+  display: none; /* shown via JS */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  gap: 0.75rem;
+}
+
+.empty-state--visible {
+  display: flex;
+}
+
+.empty-state__icon {
+  font-size: 2.5rem;
+}
+
+.empty-state__text {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* =============================================
+   STATS FOOTER
+   ============================================= */
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.stats__count {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.footer {
+  background: var(--bg-section);
+  border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  margin-top: 2rem;
+}
+
+.footer__inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer__logo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.footer__copy {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* =============================================
+   RESPONSIVE — MOBILE (max 480px)
+   ============================================= */
+@media (max-width: 480px) {
+  .input-section__form {
+    flex-direction: column;
+  }
+
+  .input-section__field,
+  .btn--primary {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    justify-content: center;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .todo-item__actions {
+    opacity: 1; /* always visible on touch devices */
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}

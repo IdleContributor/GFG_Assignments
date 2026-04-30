@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products API — Assignment 8</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- ========== NAV ========== -->
+  <nav class="nav">
+    <div class="nav__logo">&#9889; Products<span>API</span></div>
+    <ul class="nav__links">
+      <li><a class="nav__link" href="#products">Products</a></li>
+      <li><a class="nav__link" href="#explorer">Explorer</a></li>
+      <li><a class="nav__link" href="#health">Health</a></li>
+    </ul>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <div class="hero">
+    <span class="hero__badge">&#128196; Assignment 8 — Express REST API</span>
+    <h1 class="hero__title">Products <span>REST API</span></h1>
+    <p class="hero__subtitle">
+      Full CRUD API built with Express 5. Try every endpoint live — no Postman needed.
+    </p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-value">5</span>
+        <span class="hero__meta-label">Endpoints</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-value">REST</span>
+        <span class="hero__meta-label">Architecture</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-value" id="heroCount">—</span>
+        <span class="hero__meta-label">Products</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="page">
+
+    <!-- ========== HEALTH ========== -->
+    <section id="health">
+      <h2 class="section-title">&#128994; Server Health</h2>
+      <div class="health-card">
+        <div class="health-card__dot" id="healthDot"></div>
+        <div class="health-card__text">
+          <div class="health-card__label" id="healthLabel">Checking…</div>
+          <div class="health-card__msg" id="healthMsg">GET /api/health</div>
+        </div>
+        <button class="btn btn--outline btn--sm" onclick="checkHealth()">Refresh</button>
+      </div>
+    </section>
+
+    <!-- ========== PRODUCTS TABLE ========== -->
+    <section id="products" class="table-section">
+      <h2 class="section-title">&#128722; All Products</h2>
+      <div class="table-wrapper">
+        <div class="table-toolbar">
+          <span class="table-toolbar__title" id="tableCount">Loading…</span>
+          <div class="table-toolbar__filters">
+            <input type="text"   id="filterCategory" placeholder="Filter by category…" oninput="loadProducts()" />
+            <select id="filterStock" onchange="loadProducts()">
+              <option value="">All stock</option>
+              <option value="true">In Stock</option>
+              <option value="false">Out of Stock</option>
+            </select>
+            <button class="btn btn--outline btn--sm" onclick="loadProducts()">&#8635; Refresh</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="productsTableBody">
+            <tr><td colspan="6" class="table-empty">Loading products…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== API EXPLORER ========== -->
+    <section id="explorer">
+      <h2 class="section-title">&#128640; API Explorer</h2>
+      <div class="endpoints">
+
+        <!-- GET ALL -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--get">GET</span>
+            <span class="endpoint-card__path">/api/products</span>
+            <span class="endpoint-card__desc">Get all products (supports filters)</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>category (optional)</label>
+                  <input type="text" id="ga-category" placeholder="e.g. Electronics" />
+                </div>
+                <div class="form-group">
+                  <label>inStock (optional)</label>
+                  <select id="ga-instock">
+                    <option value="">Any</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doGetAll()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-getall">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-getall-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-getall-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GET BY ID -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--get">GET</span>
+            <span class="endpoint-card__path">/api/products/:id</span>
+            <span class="endpoint-card__desc">Get a single product by ID</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="form-group">
+                <label>Product ID</label>
+                <input type="number" id="gi-id" placeholder="e.g. 1" min="1" />
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doGetById()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-getbyid">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-getbyid-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-getbyid-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- POST -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--post">POST</span>
+            <span class="endpoint-card__path">/api/products</span>
+            <span class="endpoint-card__desc">Create a new product</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Name *</label>
+                  <input type="text" id="post-name" placeholder="e.g. Wireless Speaker" />
+                </div>
+                <div class="form-group">
+                  <label>Price (₹) *</label>
+                  <input type="number" id="post-price" placeholder="e.g. 1999" min="0" />
+                </div>
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Category *</label>
+                  <input type="text" id="post-category" placeholder="e.g. Electronics" />
+                </div>
+                <div class="form-group">
+                  <label>In Stock</label>
+                  <select id="post-instock">
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doPost()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-post">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-post-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-post-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PUT -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--put">PUT</span>
+            <span class="endpoint-card__path">/api/products/:id</span>
+            <span class="endpoint-card__desc">Update an existing product</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="form-group">
+                <label>Product ID *</label>
+                <input type="number" id="put-id" placeholder="e.g. 1" min="1" />
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Name (optional)</label>
+                  <input type="text" id="put-name" placeholder="Leave blank to keep current" />
+                </div>
+                <div class="form-group">
+                  <label>Price (optional)</label>
+                  <input type="number" id="put-price" placeholder="Leave blank to keep current" min="0" />
+                </div>
+              </div>
+              <div class="api-form__row">
+                <div class="form-group">
+                  <label>Category (optional)</label>
+                  <input type="text" id="put-category" placeholder="Leave blank to keep current" />
+                </div>
+                <div class="form-group">
+                  <label>In Stock (optional)</label>
+                  <select id="put-instock">
+                    <option value="">— no change —</option>
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--primary" onclick="doPut()">&#9654; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-put">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-put-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-put-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DELETE -->
+        <div class="endpoint-card">
+          <div class="endpoint-card__header" onclick="toggleCard(this)">
+            <span class="method-badge method-badge--delete">DELETE</span>
+            <span class="endpoint-card__path">/api/products/:id</span>
+            <span class="endpoint-card__desc">Delete a product by ID</span>
+            <span class="endpoint-card__toggle">&#9660;</span>
+          </div>
+          <div class="endpoint-card__body">
+            <div class="api-form">
+              <div class="form-group">
+                <label>Product ID *</label>
+                <input type="number" id="del-id" placeholder="e.g. 1" min="1" />
+              </div>
+              <div class="form-actions">
+                <button class="btn btn--danger" onclick="doDelete()">&#128465; Send Request</button>
+              </div>
+              <div class="response-panel" id="res-delete">
+                <div class="response-panel__header">
+                  <span>Response</span>
+                  <span class="response-panel__status" id="res-delete-status"></span>
+                </div>
+                <div class="response-panel__body"><pre id="res-delete-body"></pre></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <span class="footer__logo">SIMARJOT SINGH</span>
+      <p class="footer__copy">Built to fulfill GeeksforGeeks Assignment-8 Requirements</p>
+    </div>
+  </footer>
+
+  <!-- ========== TOAST ========== -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const BASE = '/api';
+
+    // ── Helpers ──────────────────────────────────────────────
+    function showToast(msg, type = '') {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => { t.className = 'toast'; }, 3000);
+    }
+
+    function showResponse(panelId, statusId, bodyId, status, data) {
+      const panel = document.getElementById(panelId);
+      const statusEl = document.getElementById(statusId);
+      const bodyEl = document.getElementById(bodyId);
+      panel.classList.add('visible');
+      const ok = status >= 200 && status < 300;
+      statusEl.textContent = status;
+      statusEl.className = `response-panel__status ${ok ? 'status--ok' : 'status--error'}`;
+      bodyEl.textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function apiFetch(method, path, body) {
+      const opts = {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+      };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(BASE + path, opts);
+      const data = await res.json();
+      return { status: res.status, data };
+    }
+
+    // ── Toggle accordion ─────────────────────────────────────
+    function toggleCard(header) {
+      const body = header.nextElementSibling;
+      const icon = header.querySelector('.endpoint-card__toggle');
+      body.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
+
+    // ── Health check ─────────────────────────────────────────
+    async function checkHealth() {
+      const dot   = document.getElementById('healthDot');
+      const label = document.getElementById('healthLabel');
+      const msg   = document.getElementById('healthMsg');
+      try {
+        const { status, data } = await apiFetch('GET', '/health');
+        if (status === 200) {
+          dot.className = 'health-card__dot online';
+          label.textContent = 'Server is online';
+          msg.textContent = data.message || 'GET /api/health → 200 OK';
+        } else {
+          throw new Error();
+        }
+      } catch {
+        dot.className = 'health-card__dot offline';
+        label.textContent = 'Server is offline';
+        msg.textContent = 'Could not reach GET /api/health';
+      }
+    }
+
+    // ── Load products table ───────────────────────────────────
+    async function loadProducts() {
+      const category = document.getElementById('filterCategory').value.trim();
+      const inStock  = document.getElementById('filterStock').value;
+      let qs = '';
+      if (category) qs += `?category=${encodeURIComponent(category)}`;
+      if (inStock)   qs += `${qs ? '&' : '?'}inStock=${inStock}`;
+
+      const tbody = document.getElementById('productsTableBody');
+      tbody.innerHTML = '<tr><td colspan="6" class="table-empty">Loading…</td></tr>';
+
+      try {
+        const { data } = await apiFetch('GET', `/products${qs}`);
+        const products = data.data || [];
+        document.getElementById('tableCount').textContent =
+          `${data.count ?? products.length} product${products.length !== 1 ? 's' : ''}`;
+        document.getElementById('heroCount').textContent = data.count ?? products.length;
+
+        if (products.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="table-empty">No products found.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = products.map(p => `
+          <tr>
+            <td><strong>#${p.id}</strong></td>
+            <td>${p.name}</td>
+            <td><span class="badge badge--cat">${p.category}</span></td>
+            <td>₹${p.price.toLocaleString('en-IN')}</td>
+            <td><span class="badge ${p.inStock ? 'badge--in' : 'badge--out'}">${p.inStock ? '✔ In Stock' : '✘ Out of Stock'}</span></td>
+            <td>
+              <button class="btn btn--outline btn--sm" onclick="prefillPut(${p.id})">Edit</button>
+              <button class="btn btn--danger btn--sm" onclick="quickDelete(${p.id})">Delete</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch {
+        tbody.innerHTML = '<tr><td colspan="6" class="table-empty">Failed to load products.</td></tr>';
+      }
+    }
+
+    // ── Quick delete from table ───────────────────────────────
+    async function quickDelete(id) {
+      if (!confirm(`Delete product #${id}?`)) return;
+      try {
+        const { status, data } = await apiFetch('DELETE', `/products/${id}`);
+        showToast(status === 200 ? `Product #${id} deleted` : data.message, status === 200 ? 'success' : 'error');
+        loadProducts();
+      } catch {
+        showToast('Request failed', 'error');
+      }
+    }
+
+    // ── Prefill PUT form from table ───────────────────────────
+    async function prefillPut(id) {
+      document.getElementById('put-id').value = id;
+      // open the PUT card
+      const cards = document.querySelectorAll('.endpoint-card');
+      cards.forEach(card => {
+        const badge = card.querySelector('.method-badge');
+        if (badge && badge.textContent === 'PUT') {
+          const header = card.querySelector('.endpoint-card__header');
+          const body   = card.querySelector('.endpoint-card__body');
+          const icon   = card.querySelector('.endpoint-card__toggle');
+          body.classList.add('open');
+          icon.classList.add('open');
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+      showToast(`Prefilled PUT form with ID ${id}`);
+    }
+
+    // ── API Explorer actions ──────────────────────────────────
+    async function doGetAll() {
+      const category = document.getElementById('ga-category').value.trim();
+      const inStock  = document.getElementById('ga-instock').value;
+      let qs = '';
+      if (category) qs += `?category=${encodeURIComponent(category)}`;
+      if (inStock)   qs += `${qs ? '&' : '?'}inStock=${inStock}`;
+      try {
+        const { status, data } = await apiFetch('GET', `/products${qs}`);
+        showResponse('res-getall', 'res-getall-status', 'res-getall-body', status, data);
+      } catch (e) {
+        showToast('Request failed', 'error');
+      }
+    }
+
+    async function doGetById() {
+      const id = document.getElementById('gi-id').value;
+      if (!id) { showToast('Enter a product ID', 'error'); return; }
+      try {
+        const { status, data } = await apiFetch('GET', `/products/${id}`);
+        showResponse('res-getbyid', 'res-getbyid-status', 'res-getbyid-body', status, data);
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doPost() {
+      const name     = document.getElementById('post-name').value.trim();
+      const price    = document.getElementById('post-price').value;
+      const category = document.getElementById('post-category').value.trim();
+      const inStock  = document.getElementById('post-instock').value === 'true';
+      if (!name || !price || !category) { showToast('Name, price and category are required', 'error'); return; }
+      try {
+        const { status, data } = await apiFetch('POST', '/products', { name, price: Number(price), category, inStock });
+        showResponse('res-post', 'res-post-status', 'res-post-body', status, data);
+        if (status === 201) { showToast('Product created!', 'success'); loadProducts(); }
+        else showToast(data.message, 'error');
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doPut() {
+      const id = document.getElementById('put-id').value;
+      if (!id) { showToast('Enter a product ID', 'error'); return; }
+      const body = {};
+      const name     = document.getElementById('put-name').value.trim();
+      const price    = document.getElementById('put-price').value;
+      const category = document.getElementById('put-category').value.trim();
+      const inStock  = document.getElementById('put-instock').value;
+      if (name)     body.name     = name;
+      if (price)    body.price    = Number(price);
+      if (category) body.category = category;
+      if (inStock)  body.inStock  = inStock === 'true';
+      if (Object.keys(body).length === 0) { showToast('Fill in at least one field to update', 'error'); return; }
+      try {
+        const { status, data } = await apiFetch('PUT', `/products/${id}`, body);
+        showResponse('res-put', 'res-put-status', 'res-put-body', status, data);
+        if (status === 200) { showToast('Product updated!', 'success'); loadProducts(); }
+        else showToast(data.message, 'error');
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    async function doDelete() {
+      const id = document.getElementById('del-id').value;
+      if (!id) { showToast('Enter a product ID', 'error'); return; }
+      if (!confirm(`Delete product #${id}?`)) return;
+      try {
+        const { status, data } = await apiFetch('DELETE', `/products/${id}`);
+        showResponse('res-delete', 'res-delete-status', 'res-delete-body', status, data);
+        if (status === 200) { showToast('Product deleted!', 'success'); loadProducts(); }
+        else showToast(data.message, 'error');
+      } catch { showToast('Request failed', 'error'); }
+    }
+
+    // ── Init ─────────────────────────────────────────────────
+    checkHealth();
+    loadProducts();
+  </script>
+
+</body>
+</html>
