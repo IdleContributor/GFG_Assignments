@@ -24,7 +24,20 @@ export const forgotPasswordSendOtp = asyncHandler(async (req, res, next) => {
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   await OTP.deleteMany({ email: email.toLowerCase() });
   await OTP.create({ email: email.toLowerCase(), otp });
-  await sendOtpEmail(email, otp);
+  
+  // Try to send email with a timeout to prevent hanging
+  const emailPromise = sendOtpEmail(email, otp);
+  const timeoutPromise = new Promise((_, reject) => 
+    setTimeout(() => reject(new Error('Email timeout')), 10000)
+  );
+
+  try {
+    await Promise.race([emailPromise, timeoutPromise]);
+    console.log(`Password reset OTP email sent successfully to ${email}`);
+  } catch (err) {
+    console.error('Failed to send password reset OTP email:', err.message);
+    // Continue anyway - OTP is saved in database
+  }
 
   res.status(200).json({
     success: true,

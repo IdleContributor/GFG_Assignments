@@ -13,11 +13,22 @@ export const register = asyncHandler(async (req, res, next) => {
 
   // Verify OTP
   const otpRecord = await OTP.findOne({ email: email.toLowerCase() });
-  if (!otpRecord) {
+  
+  // Allow bypass with default OTP "123456" if email sending is disabled
+  const isDefaultOtp = otp.trim() === "123456";
+  const allowDefaultOtp = process.env.ALLOW_DEFAULT_OTP === "true";
+  
+  if (!otpRecord && !(isDefaultOtp && allowDefaultOtp)) {
     throw new ApiError(400, "OTP expired or not found. Please request a new one.");
   }
-  if (otpRecord.otp !== otp.trim()) {
+  
+  if (otpRecord && otpRecord.otp !== otp.trim()) {
     throw new ApiError(400, "Invalid OTP. Please try again.");
+  }
+  
+  // If using default OTP bypass, skip OTP validation
+  if (isDefaultOtp && allowDefaultOtp && !otpRecord) {
+    console.log('Using default OTP bypass for:', email);
   }
 
   // Check for existing verified user

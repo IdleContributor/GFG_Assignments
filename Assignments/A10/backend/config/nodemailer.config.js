@@ -5,15 +5,22 @@ dotenv.config({ path: "./env/.env" });
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // STARTTLS
+  secure: false, // Use TLS
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  tls: {
+    ciphers: 'SSLv3', // Required for some SMTP providers like Brevo
+    rejectUnauthorized: false, // Allow self-signed certificates
+  },
 });
 
 export const sendOtpEmail = async (toEmail, otp) => {
-  await transporter.sendMail({
+  console.log(`Attempting to send OTP email to: ${toEmail}`);
+  console.log(`SMTP Config - Host: ${process.env.SMTP_HOST}, Port: ${process.env.SMTP_PORT}, User: ${process.env.SMTP_USER}`);
+  
+  const info = await transporter.sendMail({
     from: `"${process.env.FROM_NAME || "BlogSpace"}" <${process.env.FROM_EMAIL}>`,
     to: toEmail,
     subject: "Your BlogSpace verification code",
@@ -28,4 +35,7 @@ export const sendOtpEmail = async (toEmail, otp) => {
       </div>
     `,
   });
+  
+  console.log(`Email sent successfully! Message ID: ${info.messageId}`);
+  return info;
 };
