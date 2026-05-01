@@ -193,6 +193,35 @@ body {
   font-size: 0.95rem;
 }
 
+.footer__github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.footer__github-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(43, 174, 102, 0.3);
+}
+
+.footer__github-btn:active {
+  transform: translateY(0);
+}
+
+.footer__github-btn svg {
+  flex-shrink: 0;
+}
+
 .footer__links {
   display: flex;
   justify-content: center;

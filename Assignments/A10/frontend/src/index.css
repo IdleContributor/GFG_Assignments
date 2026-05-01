@@ -154,3 +154,21 @@ h1, h2, h3, h4, h5, h6 {
 [data-theme="dark"] .hover\:bg-gray-100:hover {
   background-color: #374151 !important;
 }
+
+/* ── Google OAuth Button Fix ── */
+/* Force Google button to full width */
+div[data-testid="google-login-button"],
+div[id^="container-"],
+iframe[id^="gsi_"] {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Wrapper for Google button */
+.google-button-wrapper {
+  width: 100%;
+}
+
+.google-button-wrapper > div {
+  width: 100% !important;
+}
