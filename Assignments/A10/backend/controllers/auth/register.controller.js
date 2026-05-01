@@ -14,21 +14,25 @@ export const register = asyncHandler(async (req, res, next) => {
   // Verify OTP
   const otpRecord = await OTP.findOne({ email: email.toLowerCase() });
   
-  // Allow bypass with default OTP "123456" if email sending is disabled
+  // Allow bypass with default OTP "123456" if enabled
   const isDefaultOtp = otp.trim() === "123456";
   const allowDefaultOtp = process.env.ALLOW_DEFAULT_OTP === "true";
   
-  if (!otpRecord && !(isDefaultOtp && allowDefaultOtp)) {
-    throw new ApiError(400, "OTP expired or not found. Please request a new one.");
-  }
+  console.log(`OTP Verification - Email: ${email}, Entered OTP: ${otp}, Allow Default: ${allowDefaultOtp}`);
   
-  if (otpRecord && otpRecord.otp !== otp.trim()) {
-    throw new ApiError(400, "Invalid OTP. Please try again.");
-  }
-  
-  // If using default OTP bypass, skip OTP validation
-  if (isDefaultOtp && allowDefaultOtp && !otpRecord) {
-    console.log('Using default OTP bypass for:', email);
+  // If default OTP is allowed and user entered "123456", allow it
+  if (isDefaultOtp && allowDefaultOtp) {
+    console.log('✅ Using default OTP bypass for:', email);
+  } 
+  // Otherwise, verify against database OTP
+  else {
+    if (!otpRecord) {
+      throw new ApiError(400, "OTP expired or not found. Please request a new one.");
+    }
+    if (otpRecord.otp !== otp.trim()) {
+      throw new ApiError(400, "Invalid OTP. Please try again.");
+    }
+    console.log('✅ OTP verified from database for:', email);
   }
 
   // Check for existing verified user
