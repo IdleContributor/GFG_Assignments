@@ -9,15 +9,18 @@ if (process.env.NODE_ENV !== 'production') {
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // Use TLS
+  secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
   tls: {
-    ciphers: 'SSLv3', // Required for some SMTP providers like Brevo
-    rejectUnauthorized: false, // Allow self-signed certificates
+    ciphers: 'SSLv3',
+    rejectUnauthorized: false,
   },
+  connectionTimeout: 30000, // 30 seconds
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
 });
 
 export const sendOtpEmail = async (toEmail, otp) => {

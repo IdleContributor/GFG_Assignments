@@ -22,10 +22,10 @@ export const sendOtp = asyncHandler(async (req, res, next) => {
   await OTP.deleteMany({ email: email.toLowerCase() });
   await OTP.create({ email: email.toLowerCase(), otp });
 
-  // Try to send email with a timeout to prevent hanging
+  // Try to send email with a longer timeout for Railway
   const emailPromise = sendOtpEmail(email, otp);
   const timeoutPromise = new Promise((_, reject) => 
-    setTimeout(() => reject(new Error('Email timeout')), 10000)
+    setTimeout(() => reject(new Error('Email timeout')), 30000) // 30 seconds
   );
 
   try {
@@ -36,6 +36,11 @@ export const sendOtp = asyncHandler(async (req, res, next) => {
     console.error('Error message:', err.message);
     console.error('Error code:', err.code);
     console.error('Full error:', JSON.stringify(err, null, 2));
+    
+    // Log the OTP to console as fallback (only in development)
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`🔑 OTP for ${email}: ${otp}`);
+    }
     // Continue anyway - OTP is saved in database
   }
 

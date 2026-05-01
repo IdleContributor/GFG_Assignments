@@ -182,6 +182,13 @@ const StepOtp = ({ formData, onBack, onSuccess }) => {
         />
       </div>
 
+      {/* Default OTP hint */}
+      <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg">
+        <p className="text-xs text-blue-700 text-center">
+          💡 <strong>Tip:</strong> If you didn't receive the email, you can use <code className="bg-blue-100 px-2 py-0.5 rounded font-mono font-bold">123456</code> as the verification code
+        </p>
+      </div>
+
       <button
         type="submit" disabled={loading || otp.length !== 6}
         className="btn-primary w-full flex justify-center items-center gap-2 disabled:opacity-60"
