@@ -1,6 +1,10 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-dotenv.config({ path: "./env/.env" });
+
+// Only load from file in development
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: "./env/.env" });
+}
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,

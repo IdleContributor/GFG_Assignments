@@ -6,7 +6,10 @@ import authRouter from "../routes/auth.routes.js";
 import postRouter from "../routes/post.routes.js";
 import errorMiddleware from "../middleware/error.middle.js";
 
-dotenv.config({ path: "./env/.env" });
+// Only load from file in development
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: "./env/.env" });
+}
 
 const app = express();
 

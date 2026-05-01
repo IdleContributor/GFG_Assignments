@@ -4,7 +4,11 @@ import User from "../../models/user.model.js";
 import jwt from "jsonwebtoken";
 import ApiError from "../../utils/errorHandler.utils.js";
 import dotenv from "dotenv";
-dotenv.config({ path: "./env/.env" });
+
+// Only load from file in development
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: "./env/.env" });
+}
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 

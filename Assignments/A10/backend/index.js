@@ -2,8 +2,11 @@ import app from "./src/app.js";
 import dotenv from "dotenv";
 import connectDB from "./config/db.config.js";
 
-// Load .env locally; on Render env vars are injected directly
-dotenv.config({ path: "./env/.env" });
+// Load .env locally; on Railway/Render env vars are injected directly
+// Only load from file if it exists (local development)
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: "./env/.env" });
+}
 
 const PORT = process.env.PORT || 5000;
 
