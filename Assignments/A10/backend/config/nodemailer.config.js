@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer";
+import { Resend } from 'resend';
 import dotenv from "dotenv";
 
 // Only load from file in development
@@ -6,30 +6,14 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: "./env/.env" });
 }
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: Number(process.env.SMTP_PORT) === 465, // true for 465, false for other ports
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-  tls: {
-    ciphers: 'SSLv3',
-    rejectUnauthorized: false,
-  },
-  connectionTimeout: 30000, // 30 seconds
-  greetingTimeout: 30000,
-  socketTimeout: 30000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendOtpEmail = async (toEmail, otp) => {
   console.log(`Attempting to send OTP email to: ${toEmail}`);
-  console.log(`SMTP Config - Host: ${process.env.SMTP_HOST}, Port: ${process.env.SMTP_PORT}, User: ${process.env.SMTP_USER}`);
-  console.log(`FROM_EMAIL: ${process.env.FROM_EMAIL}, FROM_NAME: ${process.env.FROM_NAME}`);
+  console.log(`Using Resend API with FROM_EMAIL: ${process.env.FROM_EMAIL}`);
   
-  const info = await transporter.sendMail({
-    from: `"${process.env.FROM_NAME || "BlogSpace"}" <${process.env.FROM_EMAIL}>`,
+  const { data, error } = await resend.emails.send({
+    from: `${process.env.FROM_NAME || "BlogSpace"} <${process.env.FROM_EMAIL}>`,
     to: toEmail,
     subject: "Your BlogSpace verification code",
     html: `
@@ -43,7 +27,12 @@ export const sendOtpEmail = async (toEmail, otp) => {
       </div>
     `,
   });
-  
-  console.log(`Email sent successfully! Message ID: ${info.messageId}`);
-  return info;
+
+  if (error) {
+    console.error('❌ Resend API error:', error);
+    throw new Error(error.message);
+  }
+
+  console.log(`✅ Email sent successfully! Email ID: ${data.id}`);
+  return data;
 };

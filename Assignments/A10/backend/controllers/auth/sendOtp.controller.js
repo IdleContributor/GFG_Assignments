@@ -22,26 +22,15 @@ export const sendOtp = asyncHandler(async (req, res, next) => {
   await OTP.deleteMany({ email: email.toLowerCase() });
   await OTP.create({ email: email.toLowerCase(), otp });
 
-  // Try to send email with a longer timeout for Railway
-  const emailPromise = sendOtpEmail(email, otp);
-  const timeoutPromise = new Promise((_, reject) => 
-    setTimeout(() => reject(new Error('Email timeout')), 30000) // 30 seconds
-  );
-
+  // Send email using Resend (fast, no timeout needed)
   try {
-    await Promise.race([emailPromise, timeoutPromise]);
+    await sendOtpEmail(email, otp);
     console.log(`✅ OTP email sent successfully to ${email}`);
   } catch (err) {
     console.error('❌ Failed to send OTP email:');
     console.error('Error message:', err.message);
-    console.error('Error code:', err.code);
-    console.error('Full error:', JSON.stringify(err, null, 2));
-    
-    // Log the OTP to console as fallback (only in development)
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`🔑 OTP for ${email}: ${otp}`);
-    }
-    // Continue anyway - OTP is saved in database
+    console.error('Error:', err);
+    // Continue anyway - OTP is saved in database, user can use 123456 if ALLOW_DEFAULT_OTP is enabled
   }
 
   res.status(200).json({
