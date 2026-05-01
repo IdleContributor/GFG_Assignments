@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/Master/index.html" },
+    { "source": "/Master/:path*", "destination": "/Master/:path*" },
     { "source": "/a1", "destination": "/A1/index.html" },
     { "source": "/A1/:path*", "destination": "/A1/:path*" },
     { "source": "/a2", "destination": "/A2/index.html" },
@@ -15,6 +16,32 @@
     { "source": "/a6/:path*", "destination": "/A6/dist/index.html" }
   ],
   "headers": [
+    {
+      "source": "/A2/(.*)\\.png",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/png"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/A1/(.*)\\.jpg",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "image/jpeg"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
