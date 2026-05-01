@@ -35,7 +35,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
 const PORT   = process.env.PORT || 3000;
-const PUBLIC = path.join(__dirname, "public"); // folder with HTML/CSS files
+
+// Try multiple possible paths for the public folder
+let PUBLIC = path.join(__dirname, "public");
+
+// If running in Railway with root directory set, public might be at different location
+if (!fs.existsSync(PUBLIC)) {
+  PUBLIC = path.join(process.cwd(), "public");
+}
+if (!fs.existsSync(PUBLIC)) {
+  PUBLIC = path.join(process.cwd(), "Assignments", "A7", "public");
+}
+
+console.log("Using PUBLIC folder:", PUBLIC);
 
 // ==========================================
 // LOGGER UTILITY
@@ -125,6 +137,17 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Public folder path: ${PUBLIC}`);
+  console.log(`__dirname: ${__dirname}`);
   console.log("Logging requests to requests.log");
   console.log("Press Ctrl+C to stop\n");
+  
+  // Check if public folder exists
+  fs.readdir(PUBLIC, (err, files) => {
+    if (err) {
+      console.error("ERROR: Public folder not found!", err);
+    } else {
+      console.log("Public folder contents:", files);
+    }
+  });
 });

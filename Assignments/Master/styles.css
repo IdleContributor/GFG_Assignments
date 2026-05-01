@@ -71,7 +71,7 @@ body {
 
 .assignments__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 2rem;
 }
 
@@ -194,6 +194,12 @@ body {
 }
 
 /* ========== RESPONSIVE ========== */
+@media (max-width: 1400px) {
+  .assignments__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
 @media (max-width: 1200px) {
   .assignments__grid {
     grid-template-columns: repeat(3, 1fr);

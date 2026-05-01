@@ -35,10 +35,17 @@ app.get("/api/health", (req, res) => {
 
 // ==========================================
 // 404 HANDLER
-// Catches any route that doesn't match above
+// Catches any API route that doesn't match above
+// Only for /api routes to not interfere with static files
 // ==========================================
-app.use((req, res) => {
-  res.status(404).json({ success: false, message: `Route ${req.url} not found` });
+app.use((req, res, next) => {
+  // Only send 404 JSON for API routes
+  if (req.url.startsWith('/api')) {
+    res.status(404).json({ success: false, message: `Route ${req.url} not found` });
+  } else {
+    // For non-API routes, let static middleware handle it or fall through
+    next();
+  }
 });
 
 // ==========================================
