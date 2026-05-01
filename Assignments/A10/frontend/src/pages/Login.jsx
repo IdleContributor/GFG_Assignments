@@ -67,15 +67,18 @@ const Login = ({ onLoginSuccess }) => {
         )}
 
         {/* Google login */}
-        <GoogleLogin
-          onSuccess={handleGoogleSuccess}
-          onError={() => setError("Google sign-in failed")}
-          text="signin_with"
-          shape="rectangular"
-          theme="outline"
-          size="large"
-          width="100%"
-        />
+        <div className="google-button-wrapper">
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => setError("Google sign-in failed")}
+            text="signin_with"
+            shape="rectangular"
+            theme="outline"
+            size="large"
+            width="100%"
+            useOneTap={false}
+          />
+        </div>
 
         {/* Divider */}
         <div className="flex items-center gap-3">

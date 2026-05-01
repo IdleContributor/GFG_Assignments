@@ -157,18 +157,23 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ── Google OAuth Button Fix ── */
 /* Force Google button to full width */
+.google-button-wrapper {
+  width: 100% !important;
+  display: block !important;
+}
+
+.google-button-wrapper > div,
+.google-button-wrapper > div > div,
 div[data-testid="google-login-button"],
 div[id^="container-"],
 iframe[id^="gsi_"] {
   width: 100% !important;
   max-width: 100% !important;
+  min-width: 100% !important;
 }
 
-/* Wrapper for Google button */
-.google-button-wrapper {
-  width: 100%;
-}
-
-.google-button-wrapper > div {
+/* Override Google's inline styles */
+.google-button-wrapper iframe {
   width: 100% !important;
+  min-width: 100% !important;
 }
