@@ -86,6 +86,7 @@
         <table>
           <thead>
             <tr>
+              <th>ID</th>
               <th>Title</th>
               <th>Author</th>
               <th>Genre</th>
@@ -96,7 +97,7 @@
             </tr>
           </thead>
           <tbody id="booksTableBody">
-            <tr><td colspan="7" class="table-empty">Loading books…</td></tr>
+            <tr><td colspan="8" class="table-empty">Loading books…</td></tr>
           </tbody>
         </table>
       </div>
@@ -429,7 +430,7 @@
       if (inStock) qs += `${qs ? '&' : '?'}inStock=${inStock}`;
 
       const tbody = document.getElementById('booksTableBody');
-      tbody.innerHTML = '<tr><td colspan="7" class="table-empty">Loading…</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" class="table-empty">Loading…</td></tr>';
 
       try {
         const { data } = await apiFetch('GET', `/books${qs}`);
@@ -439,12 +440,13 @@
         document.getElementById('heroCount').textContent = data.count ?? books.length;
 
         if (books.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" class="table-empty">No books found. Add one using the API Explorer below.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" class="table-empty">No books found. Add one using the API Explorer below.</td></tr>';
           return;
         }
 
         tbody.innerHTML = books.map(b => `
           <tr>
+            <td><code style="font-size:0.75rem;background:#f3f4f6;padding:0.2rem 0.4rem;border-radius:4px;">${b._id}</code></td>
             <td><strong>${b.title}</strong></td>
             <td>${b.author}</td>
             <td><span class="badge badge--genre">${b.genre}</span></td>
@@ -458,7 +460,7 @@
           </tr>
         `).join('');
       } catch {
-        tbody.innerHTML = '<tr><td colspan="7" class="table-empty">Failed to load books. Is the server running?</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="table-empty">Failed to load books. Is the server running?</td></tr>';
       }
     }
 
