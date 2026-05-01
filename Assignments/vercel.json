@@ -13,7 +13,9 @@
     { "source": "/a5/assets/:path*", "destination": "/A5/dist/assets/:path*" },
     { "source": "/a5/:path*", "destination": "/A5/dist/index.html" },
     { "source": "/a6/assets/:path*", "destination": "/A6/dist/assets/:path*" },
-    { "source": "/a6/:path*", "destination": "/A6/dist/index.html" }
+    { "source": "/a6/:path*", "destination": "/A6/dist/index.html" },
+    { "source": "/a10/assets/:path*", "destination": "/A10/frontend/dist/assets/:path*" },
+    { "source": "/a10/:path*", "destination": "/A10/frontend/dist/index.html" }
   ],
   "headers": [
     {
