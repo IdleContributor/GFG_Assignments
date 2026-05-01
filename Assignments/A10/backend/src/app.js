@@ -12,7 +12,7 @@ const app = express();
 
 // Middleware
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [process.env.CLIENT_URL]
+  ? [process.env.CLIENT_URL, 'https://gfg.simar.dev']
   : ['http://localhost:5173', 'http://localhost:3000', process.env.CLIENT_URL];
 
 app.use(
@@ -21,9 +21,17 @@ app.use(
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       
-      if (allowedOrigins.indexOf(origin) !== -1 || allowedOrigins.includes(undefined)) {
+      // Check if origin is in allowed list
+      const isAllowed = allowedOrigins.some(allowed => {
+        if (!allowed) return false;
+        // Allow exact match or if request origin starts with allowed origin
+        return origin === allowed || origin.startsWith(allowed);
+      });
+      
+      if (isAllowed) {
         callback(null, true);
       } else {
+        console.log('CORS blocked origin:', origin);
         callback(new Error('Not allowed by CORS'));
       }
     },

@@ -71,7 +71,7 @@ body {
 
 .assignments__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
@@ -139,7 +139,7 @@ body {
 
 .card__button {
   display: inline-block;
-  width: 100%;
+  flex: 1;
   padding: 0.75rem 1.5rem;
   background-color: var(--primary);
   color: white;
@@ -149,7 +149,6 @@ body {
   font-weight: 600;
   font-size: 0.95rem;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
 }
 
 .card__button:hover {
@@ -160,6 +159,24 @@ body {
 
 .card__button:active {
   transform: translateY(0);
+}
+
+.card__button--secondary {
+  background-color: transparent;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.card__button--secondary:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary-dark);
+  color: var(--primary-dark);
+}
+
+.card__buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 /* ========== FOOTER ========== */
@@ -194,21 +211,15 @@ body {
 }
 
 /* ========== RESPONSIVE ========== */
-@media (max-width: 1400px) {
-  .assignments__grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 @media (max-width: 1200px) {
   .assignments__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .assignments__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
