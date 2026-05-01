@@ -30,9 +30,12 @@ export const sendOtp = asyncHandler(async (req, res, next) => {
 
   try {
     await Promise.race([emailPromise, timeoutPromise]);
-    console.log(`OTP email sent successfully to ${email}`);
+    console.log(`✅ OTP email sent successfully to ${email}`);
   } catch (err) {
-    console.error('Failed to send OTP email:', err.message);
+    console.error('❌ Failed to send OTP email:');
+    console.error('Error message:', err.message);
+    console.error('Error code:', err.code);
+    console.error('Full error:', JSON.stringify(err, null, 2));
     // Continue anyway - OTP is saved in database
   }
 

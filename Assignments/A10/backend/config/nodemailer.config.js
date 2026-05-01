@@ -23,6 +23,7 @@ const transporter = nodemailer.createTransport({
 export const sendOtpEmail = async (toEmail, otp) => {
   console.log(`Attempting to send OTP email to: ${toEmail}`);
   console.log(`SMTP Config - Host: ${process.env.SMTP_HOST}, Port: ${process.env.SMTP_PORT}, User: ${process.env.SMTP_USER}`);
+  console.log(`FROM_EMAIL: ${process.env.FROM_EMAIL}, FROM_NAME: ${process.env.FROM_NAME}`);
   
   const info = await transporter.sendMail({
     from: `"${process.env.FROM_NAME || "BlogSpace"}" <${process.env.FROM_EMAIL}>`,

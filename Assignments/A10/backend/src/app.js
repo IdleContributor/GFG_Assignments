@@ -14,9 +14,14 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 
 // Middleware
-const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [process.env.CLIENT_URL, 'https://gfg.simar.dev']
-  : ['http://localhost:5173', 'http://localhost:3000', process.env.CLIENT_URL];
+const allowedOrigins = [
+  'https://gfg.simar.dev',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  process.env.CLIENT_URL
+].filter(Boolean); // Remove undefined values
+
+console.log('Allowed CORS origins:', allowedOrigins);
 
 app.use(
   cors({
@@ -26,15 +31,14 @@ app.use(
       
       // Check if origin is in allowed list
       const isAllowed = allowedOrigins.some(allowed => {
-        if (!allowed) return false;
-        // Allow exact match or if request origin starts with allowed origin
         return origin === allowed || origin.startsWith(allowed);
       });
       
       if (isAllowed) {
         callback(null, true);
       } else {
-        console.log('CORS blocked origin:', origin);
+        console.log('❌ CORS blocked origin:', origin);
+        console.log('Allowed origins:', allowedOrigins);
         callback(new Error('Not allowed by CORS'));
       }
     },
