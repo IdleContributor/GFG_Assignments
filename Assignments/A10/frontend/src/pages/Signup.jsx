@@ -234,13 +234,14 @@ const Signup = ({ onLoginSuccess }) => {
         // Wait a bit for the container to be fully rendered
         setTimeout(() => {
           if (googleButtonRef.current) {
-            // Render the button with explicit width
+            const containerWidth = googleButtonRef.current.offsetWidth;
+            // Render the button with container's full width
             window.google.accounts.id.renderButton(
               googleButtonRef.current,
               {
                 theme: "outline",
                 size: "large",
-                width: 400, // Fixed width to ensure it renders properly
+                width: containerWidth, // Use full container width
                 text: "signup_with",
                 shape: "rectangular",
                 logo_alignment: "left",
@@ -325,7 +326,7 @@ const Signup = ({ onLoginSuccess }) => {
               </div>
             )}
 
-            <div ref={googleButtonRef} className="w-full flex justify-center"></div>
+            <div ref={googleButtonRef} className="w-full" style={{ minHeight: '40px' }}></div>
 
             {/* Divider */}
             <div className="flex items-center gap-3">
