@@ -8,6 +8,7 @@ A collection of 10 full-stack web development assignments covering HTML, CSS, Ja
 
 ---
 
+
 ## 📋 Assignment Links
 
 | # | Assignment | Live Demo | Source Code |

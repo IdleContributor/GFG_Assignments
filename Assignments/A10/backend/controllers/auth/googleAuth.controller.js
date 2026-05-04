@@ -90,3 +90,62 @@ export const googleAuth = asyncHandler(async (req, res, next) => {
     data: { user: userWithoutPassword, token },
   });
 });
+
+// New handler: accepts access_token from useGoogleLogin hook
+export const googleAuthToken = asyncHandler(async (req, res, next) => {
+  const { access_token } = req.body;
+
+  if (!access_token) throw new ApiError(400, "access_token is required");
+
+  // Fetch user info from Google using the access token
+  let payload;
+  try {
+    const response = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: { Authorization: `Bearer ${access_token}` },
+    });
+    if (!response.ok) throw new Error("Failed to fetch Google userinfo");
+    payload = await response.json();
+  } catch (err) {
+    throw new ApiError(401, "Invalid Google access token");
+  }
+
+  const { sub: googleId, email, name, picture } = payload;
+
+  // Find existing user by googleId or email
+  let user = await User.findOne({ $or: [{ googleId }, { email: email.toLowerCase() }] });
+
+  if (user) {
+    if (!user.googleId) {
+      user.googleId = googleId;
+      user.authProvider = "google";
+      user.isEmailVerified = true;
+      await user.save();
+    }
+  } else {
+    let baseUsername = name.replace(/\s+/g, "").toLowerCase().slice(0, 20);
+    let username = baseUsername;
+    let counter = 1;
+    while (await User.findOne({ username })) {
+      username = `${baseUsername}${counter++}`;
+    }
+
+    user = await User.create({
+      username,
+      email: email.toLowerCase(),
+      password: null,
+      avatar: picture || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(name)}`,
+      authProvider: "google",
+      googleId,
+      isEmailVerified: true,
+    });
+  }
+
+  const userWithoutPassword = await User.findById(user._id).select("-password");
+  const token = issueToken(user, res);
+
+  res.status(200).json({
+    success: true,
+    message: "Google authentication successful",
+    data: { user: userWithoutPassword, token },
+  });
+});

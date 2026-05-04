@@ -6,13 +6,23 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config({ path: "./env/.env" });
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy init - don't crash on startup if key is missing locally
+let resend = null;
+const getResend = () => {
+  if (!resend) {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not set. Add it to your env/.env file.");
+    }
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resend;
+};
 
 export const sendOtpEmail = async (toEmail, otp) => {
   console.log(`Attempting to send OTP email to: ${toEmail}`);
   console.log(`Using Resend API with FROM_EMAIL: ${process.env.FROM_EMAIL}`);
   
-  const { data, error } = await resend.emails.send({
+  const { data, error } = await getResend().emails.send({
     from: `${process.env.FROM_NAME || "BlogSpace"} <${process.env.FROM_EMAIL}>`,
     to: toEmail,
     subject: "Your BlogSpace verification code",
