@@ -5,7 +5,6 @@ A collection of 10 full-stack web development assignments covering HTML, CSS, Ja
 ## 🌐 Live Demo
 
 **Master Page:** [https://gfg.simar.dev](https://gfg.simar.dev)
-
 ---
 
 
